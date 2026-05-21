@@ -200,6 +200,8 @@ def main():
         parser.print_help()
 
         sys.exit(1)
+        
+    print("The process can be suspended at any time with Ctrl+C and it will automatically resume next time it is launched")
 
     ensure_csv_header(args.output)
 
