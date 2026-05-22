@@ -12,7 +12,7 @@ if %errorlevel% NEQ 0 (
 
 echo Proceed...
 
-python positions_labelling_fen_input.py --input selected_top_level_games.fen --output selected_top_level_games.csv --stockfish stockfish-windows-x86-64-bmi2.exe --workers 12 --depth 30
+python positions_labelling_fen_input.py --input selected_top_level_games.fen --output selected_top_level_games.csv --stockfish stockfish-windows-x86-64-bmi2.exe --workers 16 --depth 30
 
 echo:
 pause
