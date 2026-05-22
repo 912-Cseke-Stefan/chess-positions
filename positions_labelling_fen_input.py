@@ -6,6 +6,8 @@ import multiprocessing as mp
 import os
 import signal
 import threading
+
+from tqdm import tqdm
 from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
 
 import chess
@@ -230,6 +232,7 @@ def main():
 
     completed_count = 0
     highest_completed_line = start_line
+    progress_bar = tqdm(initial=start_line, unit="pos", desc="Processed")
 
     output_file = open(
         args.output,
@@ -309,17 +312,13 @@ def main():
                     
                         total_processed = highest_completed_line
 
-                        print(
-                            f"\rProcessed positions: {total_processed}",
-                            end="",
-                            flush=True,
-                        )
+                        progress_bar.update(1)
 
         # ----------------------------------------------------
         # Finish queued evaluations
         # ----------------------------------------------------
 
-        print("\nFinishing queued evaluations...")
+        tqdm.write("\nFinishing queued evaluations...")
 
         while pending:
 
@@ -351,15 +350,12 @@ def main():
                     
                     total_processed = highest_completed_line
 
-                    print(
-                        f"\rProcessed positions: {total_processed}",
-                        end="",
-                        flush=True,
-                    )
+                    progress_bar.update(1)
 
                 except Exception as e:
                     print(f"\nWorker error: {e}")
 
+    progress_bar.close()
     output_file.close()
 
     print("\nDone.")
